@@ -65,20 +65,20 @@ def start_hostel_application(browser, num_of_hostel, count_refresh):
 	hostel = browser.find_element_by_id(hostel_btn)
 	print(f"\n Trying {hostel.get_attribute('value')} ... ")
 	time.sleep(3.5)
+	hostel.click() # click button
+	
 
 	try:
 		
-		hostel.click() # click button
-
 		# check if there is an alert of no hostel available
 		time.sleep(8)
-		alert = browser.switch_to.alert
+		Alert = browser.switch_to.alert
 		print(f"done...")
 
-		if alert:
-			print(alert.text)
+		if Alert:
+			print(Alert.text)
 			time.sleep(2)		
-		alert.accept()
+		Alert.accept()
 
 		# put in waiting time here
 		print(f"\nwaiting for {seconds} seconds before retrying another hostel...")
