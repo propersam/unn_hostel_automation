@@ -11,4 +11,4 @@ From your terminal/Gitbash console run
 ``` python3 -m pip install requirements.txt``` 
 
 ### Running The Program 
-```python getHostel.py [name of browser- 'firefox' or 'chrome'] ['school_regnum'] ```
+```python getHostel.py [name of browser- 'firefox' or 'chrome'] ['school_regnum' of someone yet to get hostel] ```
