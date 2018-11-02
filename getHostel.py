@@ -48,9 +48,10 @@ def start_hostel_application(browser, num_of_hostel, count_refresh):
 
 	count = 1
 
-	while count <= tries:
-		# print('maximum tries reached..')
-		# return
+	while True:
+		if count >= tries:
+			print('maximum tries reached..')
+			break
 
 	
 
