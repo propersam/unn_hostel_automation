@@ -12,3 +12,5 @@ From your terminal/Gitbash console run
 
 ### Running The Program 
 ```python getHostel.py [name of browser- 'firefox' or 'chrome'] ['school_regnum' of someone yet to get hostel] ```
+#### Example
+``` python getHostel.py firefox 2015/1913xx```
