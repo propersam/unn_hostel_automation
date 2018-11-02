@@ -49,7 +49,7 @@ def start_hostel_application(browser, num_of_hostel):
 	count = 1
 
 	while True:
-		if count >= tries:
+		if count > tries:
 			print('maximum tries reached..')
 			break
 
@@ -91,7 +91,7 @@ def start_hostel_application(browser, num_of_hostel):
 			# put in waiting time here
 			print(f"\nwaiting for {seconds} seconds before retrying another hostel...")
 			time.sleep(seconds)
-			print(f'ready...\ndone trials: {count}/{tries}')
+			print(f'ready...\ndoing trial: {count}/{tries}')
 			
 			
 			# # try again on another hostel after waiting
