@@ -5,6 +5,7 @@ import random
 import time
 import sys
 import platform
+import os
 
 def login_to_portal(browser, reg_num, unn_hostel_portal):
 	browser.get(unn_hostel_portal)
@@ -99,7 +100,7 @@ def start_hostel_application(browser, num_of_hostel):
 			# return start_hostel_application(browser, num_of_hostel, count_refresh)
 
 		except:
-			print('Error:', sys.exc_info()[0])
+			print('Error:', sys.exc_info()[1])
 			print("I'm Confused: This current page is strange and I need your attention..")
 			print("It's either there is an error from server or this is a new page I don't recognise..\n")		
 			# There should be a form of notification to get attention here
@@ -143,12 +144,13 @@ try:
 		browser_driver = webdriver.Firefox()
 	elif browser_choice == 'chrome':
 		browser_path = ''
+		root = 'drivers'
 		if os_platform.lower() == "windows":
-			browser_path = "chromedriverwindows.exe"
+			browser_path = os.path.join(root,"chromedriverwindows.exe" ) 
 		elif os_platform.lower() == "linux":
-			browser_path = "chromedriverlinux"
+			browser_path = os.path.join(root, "chromedriverlinux")
 		elif os_platform.lower() == "darwin":
-			browser_path = "chromedrivermac"
+			browser_path = os.path.join(root, "chromedrivermac")
 		else:
 			print("The availbale driver is not compatible wiith your browser\nupdate your chrome browser \
 			and try again..")
