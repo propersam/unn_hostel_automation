@@ -4,6 +4,8 @@ from selenium import webdriver
 import random
 import time
 import sys
+import platform
+import os
 
 def login_to_portal(browser, reg_num, unn_hostel_portal):
 	browser.get(unn_hostel_portal)
@@ -43,7 +45,7 @@ def start_hostel_application(browser, num_of_hostel):
 
 	tries = 10 #1000
 
-	seconds = 15
+	seconds = 10
 	max_num = num_of_hostel - 1
 
 	count = 1
@@ -112,7 +114,7 @@ def start_hostel_application(browser, num_of_hostel):
 			# return start_hostel_application(browser, num_of_hostel, count_refresh)
 
 		except:
-			print('Error:', sys.exc_info()[0])
+			print('Error:', sys.exc_info()[1])
 			print("I'm Confused: This current page is strange and I need your attention..")
 			print("It's either there is an error from server or this is a new page I don't recognise..\n")		
 			# There should be a form of notification to get attention here
@@ -123,13 +125,17 @@ def start_hostel_application(browser, num_of_hostel):
 def terminate_program(browser):
 	if browser:
 		browser.quit()
-	
 	print('Goodbye...')
-	return
+	sys.exit()
 
+# This will get the current OS
+def get_platform():
+	return platform.system()
 
 
 # Main Program Commands
+
+os_platform = get_platform()
 
 unn_portal_link = 'http://unnportal.unn.edu.ng/modules/hostelmanager/ApplyForHostel.aspx' 
 # reg_number = '2015/197595'
@@ -139,6 +145,10 @@ reg_number = sys.argv[2]
 browser_choice = sys.argv[1]
 
 #passwd = ''
+browser_driver = ''
+browser_path = ''
+
+
 
 count = 1
 
@@ -148,20 +158,38 @@ try:
 	if browser_choice == 'firefox':
 		browser_driver = webdriver.Firefox()
 	elif browser_choice == 'chrome':
-		browser_driver = webdriver.Chrome()
+		browser_path = ''
+		root = 'drivers'
+		if os_platform.lower() == "windows":
+			browser_path = os.path.join(root,"chromedriverwindows.exe" ) 
+		elif os_platform.lower() == "linux":
+			browser_path = os.path.join(root, "chromedriverlinux")
+		elif os_platform.lower() == "darwin":
+			browser_path = os.path.join(root, "chromedrivermac")
+		else:
+			print("The availbale driver is not compatible wiith your browser\nupdate your chrome browser \
+			and try again..")
+			terminate_program(0)
+
+		# print("Available driiver is not compatible with your system/browser")
+		# sys.exit()
+		
+		browser_driver = webdriver.Chrome(browser_path)
 	else:
 		print("I can't help you now...\n To Continue, you need to have either 'Firefox' or 'Chrome' installed")
 		terminate_program(browser_driver)
 
 	login_to_portal(browser_driver, reg_number, unn_portal_link)
+	print('Logged in successfully...')
 
 	print("\nTime to start applying for hostel...\n")
+
 except:
 	print('Error in connection and could not login')
+	print(sys.exc_info())
 	terminate_program(browser_driver)
-	raise
 
-print('Logged in successfully...')
+
 # get max number of buttons
 time.sleep(2) # Let the user see something
 max_hostel_available = get_num_of_hostel_available(browser_driver)
