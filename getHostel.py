@@ -48,10 +48,18 @@ def start_hostel_application(browser, num_of_hostel):
 
 	count = 1
 
+	# Getting the current page url
+	current_page = browser.current_url
 	while True:
 		if count > tries:
 			print('maximum tries reached..')
-			break
+			print("To continue trying press '[Y]' or any other key to quit")
+			reply = input().lower()
+			if reply == 'y':
+				count = 1
+				continue
+			else:
+				break
 
 	
 
@@ -80,10 +88,16 @@ def start_hostel_application(browser, num_of_hostel):
 				time.sleep(2)
 				Alert.accept()
 			else:
-				count += 1
-				continue
+				if current_page != browser.current_url:
+					print('The current Page needs your attention.. \n go checkout it out')
+					break
+			
 
 			print(f"done...")
+
+			# if current_page != browser.current_url:
+			# 	print('The current Page needs your attention.. \n go checkout it out')
+			# 	break
 
 					
 			
@@ -103,6 +117,7 @@ def start_hostel_application(browser, num_of_hostel):
 			print("It's either there is an error from server or this is a new page I don't recognise..\n")		
 			# There should be a form of notification to get attention here
 			time.sleep(5) # Let the user see something
+			raise
 			break
 
 def terminate_program(browser):
@@ -144,6 +159,7 @@ try:
 except:
 	print('Error in connection and could not login')
 	terminate_program(browser_driver)
+	raise
 
 print('Logged in successfully...')
 # get max number of buttons
@@ -174,4 +190,5 @@ except:
 	print('error', sys.exc_info()[0])
 finally:
 	terminate_program(browser_driver)
+	raise
 
