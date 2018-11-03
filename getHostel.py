@@ -124,6 +124,9 @@ reg_number = sys.argv[2]
 browser_choice = sys.argv[1]
 
 #passwd = ''
+browser_driver = ''
+
+
 
 count = 1
 
@@ -133,19 +136,26 @@ try:
 	if browser_choice == 'firefox':
 		browser_driver = webdriver.Firefox()
 	elif browser_choice == 'chrome':
-		browser_driver = webdriver.Chrome()
+    	# default path for windows
+		browser_path = "C:\\Program Files (x86)\\Google\\Chrome\\Application"
+		browser_driver = webdriver.Chrome(browser_path)
 	else:
 		print("I can't help you now...\n To Continue, you need to have either 'Firefox' or 'Chrome' installed")
 		terminate_program(browser_driver)
 
 	login_to_portal(browser_driver, reg_number, unn_portal_link)
+	print('Logged in successfully...')
 
 	print("\nTime to start applying for hostel...\n")
+
 except:
 	print('Error in connection and could not login')
-	terminate_program(browser_driver)
+	print('error:',sys.exc_info()[0])
+	if browser_driver:
+		terminate_program(browser_driver)
+	sys.exit()
 
-print('Logged in successfully...')
+
 # get max number of buttons
 time.sleep(2) # Let the user see something
 max_hostel_available = get_num_of_hostel_available(browser_driver)
