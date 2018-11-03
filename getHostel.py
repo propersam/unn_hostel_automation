@@ -45,7 +45,7 @@ def start_hostel_application(browser, num_of_hostel):
 
 	tries = 10 #1000
 
-	seconds = 15
+	seconds = 10
 	max_num = num_of_hostel - 1
 
 	count = 1
