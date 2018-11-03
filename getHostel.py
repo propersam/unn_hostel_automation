@@ -4,6 +4,7 @@ from selenium import webdriver
 import random
 import time
 import sys
+import platform
 
 def login_to_portal(browser, reg_num, unn_hostel_portal):
 	browser.get(unn_hostel_portal)
@@ -108,14 +109,17 @@ def start_hostel_application(browser, num_of_hostel):
 def terminate_program(browser):
 	if browser:
 		browser.quit()
-	sys.exit()
-	
 	print('Goodbye...')
-	return
+	sys.exit()
 
+# This will get the current OS
+def get_platform():
+	return platform.system()
 
 
 # Main Program Commands
+
+os_platform = get_platform()
 
 unn_portal_link = 'http://unnportal.unn.edu.ng/modules/hostelmanager/ApplyForHostel.aspx' 
 # reg_number = '2015/197595'
@@ -126,6 +130,7 @@ browser_choice = sys.argv[1]
 
 #passwd = ''
 browser_driver = ''
+browser_path = ''
 
 
 
@@ -137,8 +142,18 @@ try:
 	if browser_choice == 'firefox':
 		browser_driver = webdriver.Firefox()
 	elif browser_choice == 'chrome':
-    	# default path for windows
-		browser_path = "C:\\Program Files (x86)\\Google\\Chrome\\Application"
+		browser_path = ''
+		if os_platform.lower() == "windows":
+			browser_path = "chromedriverwindows.exe"
+		elif os_platform.lower() == "linux":
+			browser_path = "chromedriverlinux"
+		else:
+			print("The availbale driver is not compatible wiith your browser\nupdate your chrome browser..")
+			terminate_program(0)
+
+		# print("Available driiver is not compatible with your system/browser")
+		# sys.exit()
+		
 		browser_driver = webdriver.Chrome(browser_path)
 	else:
 		print("I can't help you now...\n To Continue, you need to have either 'Firefox' or 'Chrome' installed")
@@ -151,7 +166,7 @@ try:
 
 except:
 	print('Error in connection and could not login')
-	print('error:',sys.exc_info()[0])
+	print(sys.exc_info())
 	terminate_program(browser_driver)
 	
 
