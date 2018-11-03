@@ -160,11 +160,11 @@ try:
 	elif browser_choice == 'chrome':
 		browser_path = ''
 		root = 'drivers'
-		if os_platform.lower() == "windows":
+		if "windows" in os_platform.lower():
 			browser_path = os.path.join(root,"chromedriverwindows.exe" ) 
-		elif os_platform.lower() == "linux":
+		elif "linux" in os_platform.lower():
 			browser_path = os.path.join(root, "chromedriverlinux")
-		elif os_platform.lower() == "darwin":
+		elif "darwin" in os_platform.lower():
 			browser_path = os.path.join(root, "chromedrivermac")
 		else:
 			print("The availbale driver is not compatible wiith your browser\nupdate your chrome browser \
