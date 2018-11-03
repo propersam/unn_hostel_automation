@@ -108,6 +108,7 @@ def start_hostel_application(browser, num_of_hostel):
 def terminate_program(browser):
 	if browser:
 		browser.quit()
+	sys.exit()
 	
 	print('Goodbye...')
 	return
@@ -151,9 +152,8 @@ try:
 except:
 	print('Error in connection and could not login')
 	print('error:',sys.exc_info()[0])
-	if browser_driver:
-		terminate_program(browser_driver)
-	sys.exit()
+	terminate_program(browser_driver)
+	
 
 
 # get max number of buttons
