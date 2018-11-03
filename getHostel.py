@@ -51,7 +51,7 @@ def start_hostel_application(browser, num_of_hostel):
 	count = 1
 
 	# Getting the current page url
-	current_page = browser.current_url
+	application_page = browser.current_url
 	while True:
 		if count > tries:
 			print('maximum tries reached..')
@@ -83,19 +83,20 @@ def start_hostel_application(browser, num_of_hostel):
 		try:
 			
 			# check if there is an alert of no hostel available
-			time.sleep(8)
-			if browser.switch_to.alert:
-				Alert = browser.switch_to.alert
+			browser.implicitly_wait(8)
+			Alert = browser.switch_to.alert
+			if Alert:
 				print(Alert.text)
 				time.sleep(2)
 				Alert.accept()
+				print(f"done...")
 			else:
-				if current_page != browser.current_url:
+				if application_page != browser.current_url:
 					print('The current Page needs your attention.. \n go checkout it out')
 					break
 			
 
-			print(f"done...")
+			
 
 			# if current_page != browser.current_url:
 			# 	print('The current Page needs your attention.. \n go checkout it out')
@@ -186,7 +187,7 @@ try:
 
 except:
 	print('Error in connection and could not login')
-	print(sys.exc_info())
+	print(sys.exc_info()[1])
 	terminate_program(browser_driver)
 
 
