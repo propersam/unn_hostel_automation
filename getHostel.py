@@ -65,7 +65,7 @@ def start_hostel_application(browser, num_of_hostel):
     # Getting the current page url
     application_page = browser.current_url
 
-    print(f'ready...\ndoing trial: {count}/{tries}')
+    print(f'ready...\ndone trial: {count}/{tries}')
     while True:
         if count >= tries:
             print('Maximum tries exceeded..')
@@ -110,7 +110,7 @@ def start_hostel_application(browser, num_of_hostel):
             # put in waiting time here
             print(f"\nwaiting for {seconds} seconds before retrying another hostel...")
             time.sleep(seconds)
-            print(f'ready...\ndoing trial: {count}/{tries}')
+            print(f'ready...\ndone trial: {count}/{tries}')
 
         except: # This contains success of hostel application next page
             if application_page != browser.current_url:
