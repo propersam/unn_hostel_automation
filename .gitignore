@@ -1,3 +1,4 @@
 argtest.py
 *.log
 /.idea
+/.vscode

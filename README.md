@@ -17,6 +17,4 @@ This is a simple automation tool that allows user students to apply, for hostel 
 ![Install Modules](examples/install-modules.png "Install required modules")
 - Run the program
 ```python getHostel.py [name of browser- 'firefox' or 'chrome'] ['school_regnum' of someone yet to get hostel] ```
-## Example
-
-``` python getHostel.py firefox 2015/1913xx```
+![Example](examples/example_.png "Example")
