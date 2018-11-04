@@ -18,3 +18,7 @@ This is a simple automation tool that allows user students to apply, for hostel 
 - Run the program
 ```python getHostel.py [name of browser- 'firefox' or 'chrome'] ['school_regnum' of someone yet to get hostel] ```
 ![Example](examples/example_.png "Example")
+- Console View
+![Console View](examples/console.png "Console")
+- Browser View
+![Chrome](examples/screen.png "Chrome")

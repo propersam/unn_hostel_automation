@@ -1,4 +1,6 @@
-argtest.py
-*.log
 /.idea
 /.vscode
+
+argtest.py
+*.log
+
