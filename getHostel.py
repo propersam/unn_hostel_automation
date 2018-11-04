@@ -64,8 +64,10 @@ def start_hostel_application(browser, num_of_hostel):
 
     # Getting the current page url
     application_page = browser.current_url
+
+    print(f'ready...\ndoing trial: {count}/{tries}')
     while True:
-        if count > tries:
+        if count >= tries:
             print('Maximum tries exceeded..')
             print("To Continue Trying Press '[Y]' or Any Other Key To Quit")
             reply = input().lower()
@@ -156,7 +158,7 @@ def main():
 
     count = 1
 
-    print(f'Hi Welcome, I am gabriel\n your Hostel Angel [*.*] ;) :)\n Loading up {browser_choice} browser now.\nPlease wait...')
+    print(f'Hi Welcome, I am gabriel\n your Hostel Angel 😇 ;) :)\n Loading up {browser_choice} browser now.\nPlease wait...')
     try:
         # start browser engine
         if browser_choice == 'firefox':
