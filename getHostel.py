@@ -38,18 +38,18 @@ def login_to_portal(browser, reg_num, unn_hostel_portal):
     continue_btn.click()
 
     # Note: I implement all this wait around because of slow browsing networks and response
-    print("you are now fully logged In..")
+    print("You are now fully logged in..")
     return
 
 
 def get_num_of_hostel_available(browser):
 
-    print('getting number of available hostels...')
+    print('Getting the number of Hostels...')
     time.sleep(2)
     hostel_list_btns = browser.find_element_by_id('ContentPlaceHolder1_DataList1')
     hostel_list = hostel_list_btns.find_elements_by_tag_name('span')
 
-    print("done.")
+    print("Done.")
     return len(hostel_list)
 
 
@@ -66,8 +66,8 @@ def start_hostel_application(browser, num_of_hostel):
     application_page = browser.current_url
     while True:
         if count > tries:
-            print('maximum tries reached..')
-            print("To continue trying press '[Y]' or any other key to quit")
+            print('Maximum tries exceeded..')
+            print("To Continue Trying Press '[Y]' or Any Other Key To Quit")
             reply = input().lower()
             if reply == 'y':
                 count = 1
@@ -141,7 +141,7 @@ def terminate_program(browser):
 
 # Main Program Commands
 def main():
-    unn_portal_link = 'http://unnportal.unn.edu.ng/modules/hostelmanager/ApplyForHostel.aspx'
+    unn_portal_link = 'https://unnportal.unn.edu.ng/modules/hostelmanager/ApplyForHostel.aspx'
     # reg_number = '2015/197595'
     reg_number = sys.argv[2]
 
@@ -200,7 +200,7 @@ def main():
     # print('Make sure your details and other options are set correctly before clicking.')
 
     print('The program has stopped temporarily..')
-    print("To continue trying press '[Y]' or any other key to quit")
+    print("To Continue Trying Press '[Y]' or Any Other Key To Quit")
     try:
         reply = input().lower()
         if reply == 'y':
