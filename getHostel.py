@@ -155,9 +155,6 @@ def main():
     browser_path = ''
 
 
-
-    count = 1
-
     print(f'Hi Welcome, I am gabriel\n your Hostel Angel 😇 ;) :)\n Loading up {browser_choice} browser now.\nPlease wait...')
     try:
         # start browser engine
@@ -178,6 +175,7 @@ def main():
 
         print("\nTime to start applying for hostel...\n")
         time.sleep(5)
+
     except:
         print('Error in connection and could not login')
         print('Message:',sys.exc_info()[1])
