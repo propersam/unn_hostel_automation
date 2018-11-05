@@ -32,7 +32,6 @@ def login_to_portal(browser, reg_num, unn_hostel_portal):
     time.sleep(12) # Let the user actually see something
 
 
-
     # fill reg num and submit
     regNum_field = browser.find_element_by_id('ContentPlaceHolder1_txtRegNo')
 
@@ -90,6 +89,7 @@ def start_hostel_application(browser, num_of_hostel, trials):
             reply = input().lower()
             if reply == 'y':
                 count = 1
+                tries = int(input("How many times will you like me to retry: ").strip(' '))
                 continue
             else:
                 terminate_program(browser)
