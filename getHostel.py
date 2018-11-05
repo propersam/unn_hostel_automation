@@ -67,7 +67,7 @@ def get_num_of_hostel_available(browser):
 
     print('Getting the number of Hostels...')
     # time.sleep(2)
-
+    
     WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.ID, 'ContentPlaceHolder1_DataList1')), 'Timed out waiting for Hostel buttons to Load')  # wait for Hostel buttons to load
 
     hostel_list_btns = browser.find_element_by_id('ContentPlaceHolder1_DataList1')
@@ -192,10 +192,6 @@ def main():
     browser_driver = ''
     browser_path = ''
 
-
-
-
-
     print(f'Hi Welcome, I am gabriel\n your Hostel Angel \n Loading up {browser_choice} browser now.\nPlease wait...')
 
     ## making number of tries a varying value
@@ -230,7 +226,6 @@ def main():
         print('Error in connection and could not login')
         print('Message:',sys.exc_info()[1])
         terminate_program(browser_driver)
-
 
     # get max number of hostels through button
     max_hostel_available = get_num_of_hostel_available(browser_driver)
