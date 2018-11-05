@@ -110,12 +110,19 @@ def start_hostel_application(browser, num_of_hostel, trials):
         num = 0
         num += random.randint(0,max_num)
 
-        hostel_btn = 'ContentPlaceHolder1_DataList1_btnOption_'+str(num)
-        hostel = browser.find_element_by_id(hostel_btn)
+        try:
+            hostel_btn = 'ContentPlaceHolder1_DataList1_btnOption_'+str(num)
+            hostel = browser.find_element_by_id(hostel_btn)
 
-        print(f"\n Trying {hostel.get_attribute('value')} ... ")
-        time.sleep(2)
-        hostel.click() # click button
+            print(f"\n Trying {hostel.get_attribute('value')} ... ")
+            time.sleep(2)
+            hostel.click() # click button
+        except:
+            print('Warning: Error in connection..')
+            print(sys.exc_info()[1])
+            print('retrying...')
+            count += 1
+            continue
 
         try:
 
@@ -143,8 +150,8 @@ def start_hostel_application(browser, num_of_hostel, trials):
                 break
 
             else:
-                print('There was a problem in connection...')
-                print('warning:', sys.exc_info()[1])
+                print('Warning: There was a problem in connection...')
+                print(sys.exc_info()[1])
                 print('continuing with operation...')
                 count += 1
                 continue
