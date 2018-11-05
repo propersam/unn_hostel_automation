@@ -253,7 +253,7 @@ def main():
         if reply == 'y':
             while True:
                 try:
-                    tries = int(input("\nHow many times will you like me to retry: ").strip(' ')
+                    tries = int(input("\nHow many times will you like me to retry: ").strip(' '))
                     break
                 except:
                     print('Invalid reponse try again..')
