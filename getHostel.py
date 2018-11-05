@@ -3,6 +3,7 @@
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
@@ -29,8 +30,10 @@ def print_student_details(browser):
 def login_to_portal(browser, reg_num, unn_hostel_portal):
     browser.get(unn_hostel_portal)
 
-    time.sleep(12) # Let the user actually see something
+    # time.sleep(12) # Let the user actually see something # this is worst case scenario
 
+    # this is average case scenario for wait
+    WebDriverWait(browser, 12).until(EC.presence_of_element_located((By.ID, 'ContentPlaceHolder1_txtRegNo')), 'Timed out waiting for Reg. Number to appear')  # wait for Login page
 
     # fill reg num and submit
     regNum_field = browser.find_element_by_id('ContentPlaceHolder1_txtRegNo')
@@ -40,13 +43,15 @@ def login_to_portal(browser, reg_num, unn_hostel_portal):
     # click to submit
     browser.find_element_by_id('ContentPlaceHolder1_btnSubmit').click()
 
-    time.sleep(10) # Let the user see something
+    continue_page_elem = 'ContentPlaceHolder1_btnContinue'
+
+    # time.sleep(10) # Let the user see something
+
+    WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, continue_page_elem)), 'Timed out waiting for Continue Page to Load')  # wait for continue page
+
 
     # fetch and display Student details before clicking on continue button
     print_student_details(browser)
-
-
-    continue_page_elem = 'ContentPlaceHolder1_btnContinue'
 
    # select continue button
     continue_btn = browser.find_element_by_id(continue_page_elem)
@@ -61,7 +66,10 @@ def login_to_portal(browser, reg_num, unn_hostel_portal):
 def get_num_of_hostel_available(browser):
 
     print('Getting the number of Hostels...')
-    time.sleep(2)
+    # time.sleep(2)
+
+    WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.ID, 'ContentPlaceHolder1_DataList1')), 'Timed out waiting for Hostel buttons to Load')  # wait for Hostel buttons to load
+
     hostel_list_btns = browser.find_element_by_id('ContentPlaceHolder1_DataList1')
     hostel_list = hostel_list_btns.find_elements_by_tag_name('span')
 
@@ -116,7 +124,7 @@ def start_hostel_application(browser, num_of_hostel, trials):
             alert = browser.switch_to.alert
             if alert.text:
                 print(alert.text)
-                time.sleep(5)
+                time.sleep(3)
                 alert.accept()
             else:
                 print('No Response Alert message')
@@ -193,7 +201,7 @@ def main():
             print("I can't help you now...\n To Continue, you need to have either 'Firefox' or 'Chrome' installed")
             terminate_program(browser_driver)
 
-        time.sleep(10)
+        time.sleep(7)
         #browser_driver.implicitly_wait(8) # every action on browser give it this min time to execute
         print('Browser Loaded...')
 
