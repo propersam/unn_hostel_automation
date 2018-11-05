@@ -10,8 +10,21 @@ from selenium.common.exceptions import TimeoutException
 import random
 import time
 import sys
-import platform
-import os
+# import platform
+# import os
+
+
+def print_student_details(browser):
+    print() # print empty space at the top
+    student_info = browser.find_elements_by_xpath("//table[@id='TABLE1']/tbody/tr") # returns 11 elements
+    student_info = student_info[:9] # Only the first nine tr contains sutdent info
+    print('+' * 10)
+    for info in student_info:
+        print(info.text) # prints out the text in the elementts
+    print('+' * 10)
+
+    return
+
 
 def login_to_portal(browser, reg_num, unn_hostel_portal):
     browser.get(unn_hostel_portal)
@@ -30,6 +43,10 @@ def login_to_portal(browser, reg_num, unn_hostel_portal):
 
     time.sleep(10) # Let the user see something
 
+    # fetch and display Student details before clicking on continue button
+    print_student_details(browser)
+
+
     continue_page_elem = 'ContentPlaceHolder1_btnContinue'
 
    # select continue button
@@ -38,7 +55,7 @@ def login_to_portal(browser, reg_num, unn_hostel_portal):
     continue_btn.click()
 
     # Note: I implement all this wait around because of slow browsing networks and response
-    print("You are now fully logged in..")
+    print("\nYou are now fully logged in..")
     return
 
 
@@ -68,8 +85,8 @@ def start_hostel_application(browser, num_of_hostel):
     print(f'ready...\ndone trial: {count}/{tries}')
     while True:
         if count >= tries:
-            print('Maximum tries exceeded..')
-            print("To Continue Trying Press '[Y]' or Any Other Key To Quit")
+            print('Specified Maximum tries reached..')
+            print("To Continue Trying Enter '[Y]' or Enter Any Other Key To Quit")
             reply = input().lower()
             if reply == 'y':
                 count = 1
@@ -155,9 +172,6 @@ def main():
     browser_path = ''
 
 
-
-    count = 1
-
     print(f'Hi Welcome, I am gabriel\n your Hostel Angel 😇 ;) :)\n Loading up {browser_choice} browser now.\nPlease wait...')
     try:
         # start browser engine
@@ -178,6 +192,7 @@ def main():
 
         print("\nTime to start applying for hostel...\n")
         time.sleep(5)
+
     except:
         print('Error in connection and could not login')
         print('Message:',sys.exc_info()[1])
@@ -216,3 +231,4 @@ def main():
 
 if __name__ =='__main__':
     main()
+
