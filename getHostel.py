@@ -3,6 +3,7 @@
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
@@ -29,9 +30,10 @@ def print_student_details(browser):
 def login_to_portal(browser, reg_num, unn_hostel_portal):
     browser.get(unn_hostel_portal)
 
-    time.sleep(12) # Let the user actually see something
+    # time.sleep(12) # Let the user actually see something # this is worst case scenario
 
-
+    # this is average case scenario for wait
+    WebDriverWait(browser, 12).until(EC.presence_of_element_located((By.ID, 'ContentPlaceHolder1_txtRegNo')), 'Timed out waiting for Reg. Number to appear')  # wait for Login page
 
     # fill reg num and submit
     regNum_field = browser.find_element_by_id('ContentPlaceHolder1_txtRegNo')
@@ -41,13 +43,15 @@ def login_to_portal(browser, reg_num, unn_hostel_portal):
     # click to submit
     browser.find_element_by_id('ContentPlaceHolder1_btnSubmit').click()
 
-    time.sleep(10) # Let the user see something
+    continue_page_elem = 'ContentPlaceHolder1_btnContinue'
+
+    # time.sleep(10) # Let the user see something
+
+    WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, continue_page_elem)), 'Timed out waiting for Continue Page to Load')  # wait for continue page
+
 
     # fetch and display Student details before clicking on continue button
     print_student_details(browser)
-
-
-    continue_page_elem = 'ContentPlaceHolder1_btnContinue'
 
    # select continue button
     continue_btn = browser.find_element_by_id(continue_page_elem)
@@ -62,7 +66,10 @@ def login_to_portal(browser, reg_num, unn_hostel_portal):
 def get_num_of_hostel_available(browser):
 
     print('Getting the number of Hostels...')
-    time.sleep(2)
+    # time.sleep(2)
+
+    WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.ID, 'ContentPlaceHolder1_DataList1')), 'Timed out waiting for Hostel buttons to Load')  # wait for Hostel buttons to load
+
     hostel_list_btns = browser.find_element_by_id('ContentPlaceHolder1_DataList1')
     hostel_list = hostel_list_btns.find_elements_by_tag_name('span')
 
@@ -70,9 +77,9 @@ def get_num_of_hostel_available(browser):
     return len(hostel_list)
 
 
-def start_hostel_application(browser, num_of_hostel):
+def start_hostel_application(browser, num_of_hostel, trials):
 
-    tries = 10 #1000
+    tries = trials #1000
 
     seconds = 10
     max_num = num_of_hostel - 1
@@ -90,6 +97,7 @@ def start_hostel_application(browser, num_of_hostel):
             reply = input().lower()
             if reply == 'y':
                 count = 1
+                tries = int(input("How many times will you like me to retry: ").strip(' '))
                 continue
             else:
                 terminate_program(browser)
@@ -102,12 +110,19 @@ def start_hostel_application(browser, num_of_hostel):
         num = 0
         num += random.randint(0,max_num)
 
-        hostel_btn = 'ContentPlaceHolder1_DataList1_btnOption_'+str(num)
-        hostel = browser.find_element_by_id(hostel_btn)
+        try:
+            hostel_btn = 'ContentPlaceHolder1_DataList1_btnOption_'+str(num)
+            hostel = browser.find_element_by_id(hostel_btn)
 
-        print(f"\n Trying {hostel.get_attribute('value')} ... ")
-        time.sleep(2)
-        hostel.click() # click button
+            print(f"\n Trying {hostel.get_attribute('value')} ... ")
+            time.sleep(2)
+            hostel.click() # click button
+        except:
+            print('Warning: Error in connection..')
+            print(sys.exc_info()[1])
+            print('retrying...')
+            count += 1
+            continue
 
         try:
 
@@ -116,7 +131,7 @@ def start_hostel_application(browser, num_of_hostel):
             alert = browser.switch_to.alert
             if alert.text:
                 print(alert.text)
-                time.sleep(5)
+                time.sleep(3)
                 alert.accept()
             else:
                 print('No Response Alert message')
@@ -135,8 +150,8 @@ def start_hostel_application(browser, num_of_hostel):
                 break
 
             else:
-                print('There was a problem in connection...')
-                print('warning:', sys.exc_info()[1])
+                print('Warning: There was a problem in connection...')
+                print(sys.exc_info()[1])
                 print('continuing with operation...')
                 count += 1
                 continue
@@ -160,6 +175,7 @@ def terminate_program(browser):
 
 # Main Program Commands
 def main():
+
     unn_portal_link = 'https://unnportal.unn.edu.ng/modules/hostelmanager/ApplyForHostel.aspx'
     # reg_number = '2015/197595'
     reg_number = sys.argv[2]
@@ -170,6 +186,15 @@ def main():
     #passwd = ''
     browser_driver = ''
     browser_path = ''
+
+    ## making number of tries a varying value
+    while True:
+        try:
+            tries = int(input("How many times will you like me to retry: ").strip(' '))
+            break
+        except:
+            print('Invalid reponse try again..')
+
 
 
     print(f'Hi Welcome, I am gabriel\n your Hostel Angel 😇 ;) :)\n Loading up {browser_choice} browser now.\nPlease wait...')
@@ -183,7 +208,7 @@ def main():
             print("I can't help you now...\n To Continue, you need to have either 'Firefox' or 'Chrome' installed")
             terminate_program(browser_driver)
 
-        time.sleep(10)
+        time.sleep(7)
         #browser_driver.implicitly_wait(8) # every action on browser give it this min time to execute
         print('Browser Loaded...')
 
@@ -210,7 +235,7 @@ def main():
     print()
     print('='*5, '-| Starting hostel Application Process now |-', '='*5)
     # start applying for any random hostel
-    start_hostel_application(browser_driver, max_hostel_available)
+    start_hostel_application(browser_driver, max_hostel_available, tries)
 
     # print('When you are done and you are yet to get hostel click on Get hostel to continue the hostel application...')
 
@@ -221,7 +246,8 @@ def main():
     try:
         reply = input().lower()
         if reply == 'y':
-            start_hostel_application(browser_driver, max_hostel_available)
+            tries = int(input("How many times will you like me to retry: ").strip(' '))
+            start_hostel_application(browser_driver, max_hostel_available, tries)
         else:
             terminate_program(browser_driver)
     except:

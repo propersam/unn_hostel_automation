@@ -9,6 +9,10 @@ This is a simple automation tool that allows user students to apply, for hostel 
 ## Installation 
 - Clone this repository
 - Enter the repository/folder in your terminal
+
+- Please Note(For windows users with only one version of python on their system):
+
+        Replace 'python3' with 'python' in any of the following command below:
 - Update your pip version
 ```python3 -m pip install --upgrade pip```
 ![Updating PIP](examples/install-pip.png "Updating PIP")
