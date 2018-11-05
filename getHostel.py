@@ -192,17 +192,20 @@ def main():
     browser_driver = ''
     browser_path = ''
 
-    ## making number of tries a varying value
-    while True:
-        try:
-            tries = int(input("How many times will you like me to retry: ").strip(' '))
-            break
-        except:
-            print('Invalid reponse try again..')
+
 
 
 
     print(f'Hi Welcome, I am gabriel\n your Hostel Angel 😇 ;) :)\n Loading up {browser_choice} browser now.\nPlease wait...')
+
+    ## making number of tries a varying value
+    while True:
+        try:
+            tries = int(input("\nHow many times will you like me to retry: ").strip(' '))
+            break
+        except:
+            print('Invalid reponse try again..')
+
     try:
         # start browser engine
         if browser_choice == 'firefox':
