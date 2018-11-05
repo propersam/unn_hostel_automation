@@ -196,7 +196,7 @@ def main():
 
 
 
-    print(f'Hi Welcome, I am gabriel\n your Hostel Angel 😇 ;) :)\n Loading up {browser_choice} browser now.\nPlease wait...')
+    print(f'Hi Welcome, I am gabriel\n your Hostel Angel \n Loading up {browser_choice} browser now.\nPlease wait...')
 
     ## making number of tries a varying value
     while True:
