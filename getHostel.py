@@ -97,7 +97,12 @@ def start_hostel_application(browser, num_of_hostel, trials):
             reply = input().lower()
             if reply == 'y':
                 count = 1
-                tries = int(input("How many times will you like me to retry: ").strip(' '))
+                while True:
+                    try:
+                        tries = int(input("\nHow many times will you like me to retry: ").strip(' '))
+                        break
+                    except:
+                        print('Invalid reponse try again..')
                 continue
             else:
                 terminate_program(browser)
@@ -246,7 +251,13 @@ def main():
     try:
         reply = input().lower()
         if reply == 'y':
-            tries = int(input("How many times will you like me to retry: ").strip(' '))
+            while True:
+                try:
+                    tries = int(input("\nHow many times will you like me to retry: ").strip(' ')
+                    break
+                except:
+                    print('Invalid reponse try again..')
+
             start_hostel_application(browser_driver, max_hostel_available, tries)
         else:
             terminate_program(browser_driver)
