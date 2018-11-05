@@ -70,9 +70,9 @@ def get_num_of_hostel_available(browser):
     return len(hostel_list)
 
 
-def start_hostel_application(browser, num_of_hostel):
+def start_hostel_application(browser, num_of_hostel, trials):
 
-    tries = 10 #1000
+    tries = trials #1000
 
     seconds = 10
     max_num = num_of_hostel - 1
@@ -160,6 +160,7 @@ def terminate_program(browser):
 
 # Main Program Commands
 def main():
+
     unn_portal_link = 'https://unnportal.unn.edu.ng/modules/hostelmanager/ApplyForHostel.aspx'
     # reg_number = '2015/197595'
     reg_number = sys.argv[2]
@@ -170,6 +171,15 @@ def main():
     #passwd = ''
     browser_driver = ''
     browser_path = ''
+
+    ## making number of tries a varying value
+    while True:
+        try:
+            tries = int(input("How many times will you like me to retry: ").strip(' '))
+            break
+        except:
+            print('Invalid reponse try again..')
+
 
 
     print(f'Hi Welcome, I am gabriel\n your Hostel Angel 😇 ;) :)\n Loading up {browser_choice} browser now.\nPlease wait...')
@@ -210,7 +220,7 @@ def main():
     print()
     print('='*5, '-| Starting hostel Application Process now |-', '='*5)
     # start applying for any random hostel
-    start_hostel_application(browser_driver, max_hostel_available)
+    start_hostel_application(browser_driver, max_hostel_available, tries)
 
     # print('When you are done and you are yet to get hostel click on Get hostel to continue the hostel application...')
 
@@ -221,7 +231,8 @@ def main():
     try:
         reply = input().lower()
         if reply == 'y':
-            start_hostel_application(browser_driver, max_hostel_available)
+            tries = int(input("How many times will you like me to retry: ").strip(' '))
+            start_hostel_application(browser_driver, max_hostel_available, tries)
         else:
             terminate_program(browser_driver)
     except:
