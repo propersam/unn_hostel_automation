@@ -67,7 +67,7 @@ def get_num_of_hostel_available(browser):
 
     print('Getting the number of Hostels...')
     # time.sleep(2)
-
+    
     WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.ID, 'ContentPlaceHolder1_DataList1')), 'Timed out waiting for Hostel buttons to Load')  # wait for Hostel buttons to load
 
     hostel_list_btns = browser.find_element_by_id('ContentPlaceHolder1_DataList1')
@@ -97,7 +97,12 @@ def start_hostel_application(browser, num_of_hostel, trials):
             reply = input().lower()
             if reply == 'y':
                 count = 1
-                tries = int(input("How many times will you like me to retry: ").strip(' '))
+                while True:
+                    try:
+                        tries = int(input("\nHow many times will you like me to retry: ").strip(' '))
+                        break
+                    except:
+                        print('Invalid reponse try again..')
                 continue
             else:
                 terminate_program(browser)
@@ -187,17 +192,16 @@ def main():
     browser_driver = ''
     browser_path = ''
 
+    print(f'Hi Welcome, I am gabriel\n your Hostel Angel \n Loading up {browser_choice} browser now.\nPlease wait...')
+
     ## making number of tries a varying value
     while True:
         try:
-            tries = int(input("How many times will you like me to retry: ").strip(' '))
+            tries = int(input("\nHow many times will you like me to retry: ").strip(' '))
             break
         except:
             print('Invalid reponse try again..')
 
-
-
-    print(f'Hi Welcome, I am gabriel\n your Hostel Angel 😇 ;) :)\n Loading up {browser_choice} browser now.\nPlease wait...')
     try:
         # start browser engine
         if browser_choice == 'firefox':
@@ -223,7 +227,6 @@ def main():
         print('Message:',sys.exc_info()[1])
         terminate_program(browser_driver)
 
-
     # get max number of hostels through button
     max_hostel_available = get_num_of_hostel_available(browser_driver)
     print(f"There are only {max_hostel_available} hostels available.")
@@ -246,7 +249,13 @@ def main():
     try:
         reply = input().lower()
         if reply == 'y':
-            tries = int(input("How many times will you like me to retry: ").strip(' '))
+            while True:
+                try:
+                    tries = int(input("\nHow many times will you like me to retry: ").strip(' '))
+                    break
+                except:
+                    print('Invalid reponse try again..')
+
             start_hostel_application(browser_driver, max_hostel_available, tries)
         else:
             terminate_program(browser_driver)
