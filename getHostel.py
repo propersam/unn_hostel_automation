@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+import argparse
 
 import random
 import time
@@ -181,12 +182,20 @@ def terminate_program(browser):
 # Main Program Commands
 def main():
 
+    opt = argparse.ArgumentParser()
+    opt.add_argument('-b', '--browser', required=True,
+                      help='Your preferred Browser to run automation in [firefox/chrome]')
+    opt.add_argument('-r', '--regnumber', required=True,
+                      help="A valid unn reg number of someone that has paid their school fee and is yet to get hostel")
+
+    args = vars(opt.parse_args())
+
     unn_portal_link = 'https://unnportal.unn.edu.ng/modules/hostelmanager/ApplyForHostel.aspx'
     # reg_number = '2015/197595'
-    reg_number = sys.argv[2]
+    reg_number = args['regnumber']
 
     #browser_choice = 'firefox'
-    browser_choice = sys.argv[1]
+    browser_choice = args['browser'].lower()
 
     #passwd = ''
     browser_driver = ''
