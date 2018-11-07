@@ -99,6 +99,7 @@ def start_hostel_application(browser, num_of_hostel, trials):
             reply = input().lower()
             if reply == 'y':
                 count = 1
+
                 while True:
                     try:
                         tries = int(input("\nHow many times will you like me to retry: "))
