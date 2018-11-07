@@ -182,7 +182,7 @@ def terminate_program(browser):
 # Main Program Commands
 def main():
 
-    opt = argparse.ArgumentParser()
+    opt = argparse.ArgumentParser(description='A Script to Automate UNN Hostel Application process in your Browser')
     opt.add_argument('-b', '--browser', required=True,
                       help='Your preferred Browser to run automation in [firefox/chrome]')
     opt.add_argument('-r', '--regnumber', required=True,
