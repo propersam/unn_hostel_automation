@@ -86,34 +86,25 @@ def start_hostel_application(browser, num_of_hostel, trials):
     seconds = 10
     max_num = num_of_hostel - 1
 
-    count = 1
+    count = 0
+    # trying to make input function compatible
+    # accross python 2 and python 3
 
     # Getting the current page url
     application_page = browser.current_url
 
-    print('ready...\ndone trial: {0}/{1}'.format(count, tries))
+
     while True:
+
         if count >= tries:
             print('Specified Maximum tries reached..')
-            print("To Continue Trying Enter '[Y]' or Enter Any Other Key To Quit")
-            reply = input().lower()
-            if reply == 'y':
-                count = 1
-
-                while True:
-                    try:
-                        tries = int(input("\nHow many times will you like me to retry: "))
-                        break
-                    except:
-                        print('Invalid reponse try again..')
-                continue
-            else:
-                terminate_program(browser)
+            continue_retry(browser, max_num, tries)
 
         # # refresh page at every 10 counts before continuing
         # if count in count_refresh:
         # 	browser.refresh()
 
+        print('ready...\ndoing trial: {0}/{1}'.format(count+1, tries))
         # Get any of the random hostel buttons
         num = 0
         num += random.randint(0,max_num)
@@ -150,7 +141,8 @@ def start_hostel_application(browser, num_of_hostel, trials):
             # put in waiting time here
             print("\nwaiting for {0} seconds before retrying another hostel...".format(seconds))
             time.sleep(seconds)
-            print('ready...\ndone trial: {0}/{1}'.format(count, tries))
+
+            #print('ready...\ndone trial: {0}/{1}'.format(count, tries))
 
         except: # This contains success of hostel application next page
             if application_page != browser.current_url:
@@ -170,6 +162,46 @@ def terminate_program(browser):
         browser.quit()
     print('Goodbye...')
     sys.exit()
+
+def continue_retry(browser_driver, max_hostel_available, tries):
+
+    print('The program has stopped temporarily..')
+
+    try:
+        print("To Continue Trying Press '[Y]' or Any Other Key To Quit")
+        input_func = input # trying for python3
+        reply = str(input_func())
+        if reply.lower() == 'y':
+            while True:
+                try:
+                    tries = int(input("\nHow many times will you like me to retry: "))
+                    break
+                except:
+                    print('Invalid reponse try again..')
+
+            start_hostel_application(browser_driver, max_hostel_available, tries)
+        else:
+            terminate_program(browser_driver)
+    except NameError:
+        print("To Continue Trying Press '[Y]' or Any Other Key To Quit")
+        input_func = raw_input
+        reply = str(input_func())
+        if reply.lower() == 'y':
+            while True:
+                try:
+                    tries = int(input("\nHow many times will you like me to retry: "))
+                    break
+                except:
+                    print('Invalid reponse try again..')
+
+            start_hostel_application(browser_driver, max_hostel_available, tries)
+        else:
+            terminate_program(browser_driver)
+
+    except:
+        print('error', sys.exc_info()[1])
+        terminate_program(browser_driver)
+
 
 # # This will get the current OS
 # def get_platform():
@@ -254,25 +286,7 @@ def main():
     # print('When you are done and you are yet to get hostel click on Get hostel to continue the hostel application...')
 
     # print('Make sure your details and other options are set correctly before clicking.')
-
-    print('The program has stopped temporarily..')
-    print("To Continue Trying Press '[Y]' or Any Other Key To Quit")
-    try:
-        reply = input().lower()
-        if reply == 'y':
-            while True:
-                try:
-                    tries = int(input("\nHow many times will you like me to retry: "))
-                    break
-                except:
-                    print('Invalid reponse try again..')
-
-            start_hostel_application(browser_driver, max_hostel_available, tries)
-        else:
-            terminate_program(browser_driver)
-    except:
-        print('error', sys.exc_info()[0])
-        terminate_program(browser_driver)
+    continue_retry(browser_driver, max_hostel_available, tries)
 
 
 if __name__ =='__main__':
