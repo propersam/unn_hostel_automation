@@ -20,7 +20,7 @@ This is a simple automation tool that allows user students to apply, for hostel 
 ``` python3 -m pip install -r requirements.txt``` 
 ![Install Modules](examples/install-modules.png "Install required modules")
 - Run the program
-```python3 getHostel.py [name of browser- 'firefox' or 'chrome'] ['school_regnum' of someone yet to get hostel] ```
+```python3 getHostel.py --browser [name of browser- 'firefox' or 'chrome'] --regnumber ['school_regnum' of someone yet to get hostel] ```
 ![Example](examples/example_.png "Example")
 - Console View
 ![Console View](examples/console.png "Console")

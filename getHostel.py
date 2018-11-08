@@ -1,5 +1,5 @@
+from __future__ import print_function
 #!python3
-
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium import webdriver
@@ -7,10 +7,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+import argparse
 
 import random
 import time
 import sys
+
 # import platform
 # import os
 
@@ -21,7 +23,7 @@ def print_student_details(browser):
     student_info = student_info[:9] # Only the first nine tr contains sutdent info
     print('+' * 10)
     for info in student_info:
-        print(info.text) # prints out the text in the elementts
+        print(info.text) # prints out the text in the elements
     print('+' * 10)
 
     return
@@ -84,33 +86,25 @@ def start_hostel_application(browser, num_of_hostel, trials):
     seconds = 10
     max_num = num_of_hostel - 1
 
-    count = 1
+    count = 0
+    # trying to make input function compatible
+    # accross python 2 and python 3
 
     # Getting the current page url
     application_page = browser.current_url
 
-    print(f'ready...\ndone trial: {count}/{tries}')
+
     while True:
+
         if count >= tries:
             print('Specified Maximum tries reached..')
-            print("To Continue Trying Enter '[Y]' or Enter Any Other Key To Quit")
-            reply = input().lower()
-            if reply == 'y':
-                count = 1
-                while True:
-                    try:
-                        tries = int(input("\nHow many times will you like me to retry: ").strip(' '))
-                        break
-                    except:
-                        print('Invalid reponse try again..')
-                continue
-            else:
-                terminate_program(browser)
+            continue_retry(browser, max_num, tries)
 
         # # refresh page at every 10 counts before continuing
         # if count in count_refresh:
         # 	browser.refresh()
 
+        print('ready...\ndoing trial: {0}/{1}'.format(count+1, tries))
         # Get any of the random hostel buttons
         num = 0
         num += random.randint(0,max_num)
@@ -119,7 +113,7 @@ def start_hostel_application(browser, num_of_hostel, trials):
             hostel_btn = 'ContentPlaceHolder1_DataList1_btnOption_'+str(num)
             hostel = browser.find_element_by_id(hostel_btn)
 
-            print(f"\n Trying {hostel.get_attribute('value')} ... ")
+            print("\n Trying {0} ... ".format(hostel.get_attribute('value')))
             time.sleep(2)
             hostel.click() # click button
         except:
@@ -142,12 +136,13 @@ def start_hostel_application(browser, num_of_hostel, trials):
                 print('No Response Alert message')
 
 
-            print(f"done...")
+            print("done...")
             count += 1
             # put in waiting time here
-            print(f"\nwaiting for {seconds} seconds before retrying another hostel...")
+            print("\nwaiting for {0} seconds before retrying another hostel...".format(seconds))
             time.sleep(seconds)
-            print(f'ready...\ndone trial: {count}/{tries}')
+
+            #print('ready...\ndone trial: {0}/{1}'.format(count, tries))
 
         except: # This contains success of hostel application next page
             if application_page != browser.current_url:
@@ -168,6 +163,46 @@ def terminate_program(browser):
     print('Goodbye...')
     sys.exit()
 
+def continue_retry(browser_driver, max_hostel_available, tries):
+
+    print('The program has stopped temporarily..')
+
+    try:
+        print("To Continue Trying Press '[Y]' or Any Other Key To Quit")
+        input_func = input # trying for python3
+        reply = str(input_func())
+        if reply.lower() == 'y':
+            while True:
+                try:
+                    tries = int(input("\nHow many times will you like me to retry: "))
+                    break
+                except:
+                    print('Invalid reponse try again..')
+
+            start_hostel_application(browser_driver, max_hostel_available, tries)
+        else:
+            terminate_program(browser_driver)
+    except NameError:
+        print("To Continue Trying Press '[Y]' or Any Other Key To Quit")
+        input_func = raw_input
+        reply = str(input_func())
+        if reply.lower() == 'y':
+            while True:
+                try:
+                    tries = int(input("\nHow many times will you like me to retry: "))
+                    break
+                except:
+                    print('Invalid reponse try again..')
+
+            start_hostel_application(browser_driver, max_hostel_available, tries)
+        else:
+            terminate_program(browser_driver)
+
+    except:
+        print('error', sys.exc_info()[1])
+        terminate_program(browser_driver)
+
+
 # # This will get the current OS
 # def get_platform():
 # 	return platform.system()
@@ -181,23 +216,31 @@ def terminate_program(browser):
 # Main Program Commands
 def main():
 
+    opt = argparse.ArgumentParser(description='A Script to Automate UNN Hostel Application process in your Browser')
+    opt.add_argument('-b', '--browser', required=True,
+                      help='Your preferred Browser to run automation in [firefox/chrome]')
+    opt.add_argument('-r', '--regnumber', required=True,
+                      help="A valid unn reg number of someone that has paid their school fee and is yet to get hostel")
+
+    args = vars(opt.parse_args())
+
     unn_portal_link = 'https://unnportal.unn.edu.ng/modules/hostelmanager/ApplyForHostel.aspx'
     # reg_number = '2015/197595'
-    reg_number = sys.argv[2]
+    reg_number = args['regnumber']
 
     #browser_choice = 'firefox'
-    browser_choice = sys.argv[1]
+    browser_choice = args['browser'].lower()
 
     #passwd = ''
     browser_driver = ''
     browser_path = ''
 
-    print(f'Hi Welcome, I am gabriel\n your Hostel Angel \n Loading up {browser_choice} browser now.\nPlease wait...')
+    print('Hi Welcome, I am gabriel\n your Hostel Angel \n Loading up {0} browser now.\nPlease wait...'.format(browser_choice))
 
     ## making number of tries a varying value
     while True:
         try:
-            tries = int(input("\nHow many times will you like me to retry: ").strip(' '))
+            tries = int(input("\nHow many times will you like me to retry: "))
             break
         except:
             print('Invalid reponse try again..')
@@ -229,7 +272,7 @@ def main():
 
     # get max number of hostels through button
     max_hostel_available = get_num_of_hostel_available(browser_driver)
-    print(f"There are only {max_hostel_available} hostels available.")
+    print("There are only {0} hostels available.".format(max_hostel_available))
 
 
     # # first get multiples of 5 for purpose of refreshing
@@ -243,25 +286,7 @@ def main():
     # print('When you are done and you are yet to get hostel click on Get hostel to continue the hostel application...')
 
     # print('Make sure your details and other options are set correctly before clicking.')
-
-    print('The program has stopped temporarily..')
-    print("To Continue Trying Press '[Y]' or Any Other Key To Quit")
-    try:
-        reply = input().lower()
-        if reply == 'y':
-            while True:
-                try:
-                    tries = int(input("\nHow many times will you like me to retry: ").strip(' '))
-                    break
-                except:
-                    print('Invalid reponse try again..')
-
-            start_hostel_application(browser_driver, max_hostel_available, tries)
-        else:
-            terminate_program(browser_driver)
-    except:
-        print('error', sys.exc_info()[0])
-        terminate_program(browser_driver)
+    continue_retry(browser_driver, max_hostel_available, tries)
 
 
 if __name__ =='__main__':
