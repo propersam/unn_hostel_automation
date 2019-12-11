@@ -116,7 +116,7 @@ def start_hostel_application(browser, num_of_hostel, trials):
         num += random.randint(0,max_num)
 
         try:
-            hostel_btn = 'DataList1_btnOption_num'+str(num)
+            hostel_btn = 'DataList1_btnOption_'+str(num)
             hostel = browser.find_element_by_id(hostel_btn)
 
             print("\n Trying {0} ... ".format(hostel.get_attribute('value')))
