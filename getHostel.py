@@ -29,21 +29,25 @@ def print_student_details(browser):
     return
 
 
-def login_to_portal(browser, reg_num, unn_hostel_portal):
+def login_to_portal(browser, reg_num, unn_hostel_portal, rrr_num):
     browser.get(unn_hostel_portal)
 
     # time.sleep(12) # Let the user actually see something # this is worst case scenario
 
     # this is average case scenario for wait
-    WebDriverWait(browser, 12).until(EC.presence_of_element_located((By.ID, 'ContentPlaceHolder1_txtRegNo')), 'Timed out waiting for Reg. Number to appear')  # wait for Login page
+    WebDriverWait(browser, 12).until(EC.presence_of_element_located((By.ID, 'inputUsername')), 'Timed out waiting for Reg. Number to appear')  # wait for Login page
 
-    # fill reg num and submit
-    regNum_field = browser.find_element_by_id('ContentPlaceHolder1_txtRegNo')
+    # fill reg num, rrr number and submit
+    regNum_field = browser.find_element_by_id('inputUsername')
 
     regNum_field.send_keys(reg_num)
 
+    rrrNum_field = browser.find_element_by_id('txtRRR')
+
+    rrrNum_field.send_keys(rrr_num)
+
     # click to submit
-    browser.find_element_by_id('ContentPlaceHolder1_btnSubmit').click()
+    browser.find_element_by_id('login').click()
 
     continue_page_elem = 'ContentPlaceHolder1_btnContinue'
 
@@ -221,10 +225,13 @@ def main():
                       help='Your preferred Browser to run automation in [firefox/chrome]')
     opt.add_argument('-r', '--regnumber', required=True,
                       help="A valid unn reg number of someone that has paid their school fee and is yet to get hostel")
+    opt.add_argument('-n', '--rrrnumber', required=True,
+                      help='A valid RRR number')
 
     args = vars(opt.parse_args())
 
-    unn_portal_link = 'https://unnportal.unn.edu.ng/modules/hostelmanager/ApplyForHostel.aspx'
+    unn_portal_link = 'https://unnportal.unn.edu.ng/HostelLanding.aspx'
+    
     # reg_number = '2015/197595'
     reg_number = args['regnumber']
 
