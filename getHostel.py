@@ -74,9 +74,9 @@ def get_num_of_hostel_available(browser):
     print('Getting the number of Hostels...')
     # time.sleep(2)
     
-    WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.ID, 'ContentPlaceHolder1_DataList1')), 'Timed out waiting for Hostel buttons to Load')  # wait for Hostel buttons to load
+    WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.ID, 'DataList1')), 'Timed out waiting for Hostel buttons to Load')  # wait for Hostel buttons to load
 
-    hostel_list_btns = browser.find_element_by_id('ContentPlaceHolder1_DataList1')
+    hostel_list_btns = browser.find_element_by_id('DataList1')
     hostel_list = hostel_list_btns.find_elements_by_tag_name('span')
 
     print("Done.")
