@@ -29,36 +29,42 @@ def print_student_details(browser):
     return
 
 
-def login_to_portal(browser, reg_num, unn_hostel_portal):
+def login_to_portal(browser, reg_num, rrr_num, unn_hostel_portal):
     browser.get(unn_hostel_portal)
 
     # time.sleep(12) # Let the user actually see something # this is worst case scenario
 
     # this is average case scenario for wait
-    WebDriverWait(browser, 12).until(EC.presence_of_element_located((By.ID, 'ContentPlaceHolder1_txtRegNo')), 'Timed out waiting for Reg. Number to appear')  # wait for Login page
+    WebDriverWait(browser, 12).until(EC.presence_of_element_located((By.ID, 'inputUsername')), 'Timed out waiting for Reg. Number to appear')  # wait for Login page
 
-    # fill reg num and submit
-    regNum_field = browser.find_element_by_id('ContentPlaceHolder1_txtRegNo')
+    # fill reg num, rrr number and submit
+    regNum_field = browser.find_element_by_id('inputUsername')
 
     regNum_field.send_keys(reg_num)
 
+    rrrNum_field = browser.find_element_by_id('txtRRR')
+
+    rrrNum_field.send_keys(rrr_num)
+
     # click to submit
-    browser.find_element_by_id('ContentPlaceHolder1_btnSubmit').click()
+    browser.find_element_by_id('login').click()
 
     continue_page_elem = 'ContentPlaceHolder1_btnContinue'
 
     # time.sleep(10) # Let the user see something
 
-    WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, continue_page_elem)), 'Timed out waiting for Continue Page to Load')  # wait for continue page
+#     WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, continue_page_elem)), 'Timed out waiting for Continue Page to Load')  # wait for continue page
 
 
-    # fetch and display Student details before clicking on continue button
+#     # fetch and display Student details before clicking on continue button
+  
+
+#    # select continue button
+#     continue_btn = browser.find_element_by_id(continue_page_elem)
+#     # click button
+#     continue_btn.click()
+
     print_student_details(browser)
-
-   # select continue button
-    continue_btn = browser.find_element_by_id(continue_page_elem)
-    # click button
-    continue_btn.click()
 
     # Note: I implement all this wait around because of slow browsing networks and response
     print("\nYou are now fully logged in..")
@@ -70,9 +76,9 @@ def get_num_of_hostel_available(browser):
     print('Getting the number of Hostels...')
     # time.sleep(2)
     
-    WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.ID, 'ContentPlaceHolder1_DataList1')), 'Timed out waiting for Hostel buttons to Load')  # wait for Hostel buttons to load
+    WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.ID, 'DataList1')), 'Timed out waiting for Hostel buttons to Load')  # wait for Hostel buttons to load
 
-    hostel_list_btns = browser.find_element_by_id('ContentPlaceHolder1_DataList1')
+    hostel_list_btns = browser.find_element_by_id('DataList1')
     hostel_list = hostel_list_btns.find_elements_by_tag_name('span')
 
     print("Done.")
@@ -110,7 +116,7 @@ def start_hostel_application(browser, num_of_hostel, trials):
         num += random.randint(0,max_num)
 
         try:
-            hostel_btn = 'ContentPlaceHolder1_DataList1_btnOption_'+str(num)
+            hostel_btn = 'DataList1_btnOption_'+str(num)
             hostel = browser.find_element_by_id(hostel_btn)
 
             print("\n Trying {0} ... ".format(hostel.get_attribute('value')))
@@ -199,7 +205,7 @@ def continue_retry(browser_driver, max_hostel_available, tries):
             terminate_program(browser_driver)
 
     except:
-        print('error', sys.exc_info()[1])
+        print(':', sys.exc_info()[1])
         terminate_program(browser_driver)
 
 
@@ -221,15 +227,23 @@ def main():
                       help='Your preferred Browser to run automation in [firefox/chrome]')
     opt.add_argument('-r', '--regnumber', required=True,
                       help="A valid unn reg number of someone that has paid their school fee and is yet to get hostel")
+    opt.add_argument('-n', '--rrrnumber', required=True,
+                      help='A valid RRR number')
 
     args = vars(opt.parse_args())
 
-    unn_portal_link = 'https://unnportal.unn.edu.ng/modules/hostelmanager/ApplyForHostel.aspx'
-    # reg_number = '2015/197595'
-    reg_number = args['regnumber']
+    unn_portal_link = 'https://unnportal.unn.edu.ng/HostelLanding.aspx'
+
 
     #browser_choice = 'firefox'
     browser_choice = args['browser'].lower()
+
+    
+    # reg_number = '2015/197595'
+    reg_number = args['regnumber']
+
+    # rrr_number ='6387908976562'
+    rrr_num = args['rrrnumber']
 
     #passwd = ''
     browser_driver = ''
@@ -259,7 +273,7 @@ def main():
         #browser_driver.implicitly_wait(8) # every action on browser give it this min time to execute
         print('Browser Loaded...')
 
-        login_to_portal(browser_driver, reg_number, unn_portal_link)
+        login_to_portal(browser_driver, reg_number, rrr_num, unn_portal_link)
         print('Logged in successfully...')
 
         print("\nTime to start applying for hostel...\n")
