@@ -53,16 +53,18 @@ def login_to_portal(browser, reg_num, rrr_num, unn_hostel_portal):
 
     # time.sleep(10) # Let the user see something
 
-    WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, continue_page_elem)), 'Timed out waiting for Continue Page to Load')  # wait for continue page
+#     WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, continue_page_elem)), 'Timed out waiting for Continue Page to Load')  # wait for continue page
 
 
-    # fetch and display Student details before clicking on continue button
+#     # fetch and display Student details before clicking on continue button
+  
+
+#    # select continue button
+#     continue_btn = browser.find_element_by_id(continue_page_elem)
+#     # click button
+#     continue_btn.click()
+
     print_student_details(browser)
-
-   # select continue button
-    continue_btn = browser.find_element_by_id(continue_page_elem)
-    # click button
-    continue_btn.click()
 
     # Note: I implement all this wait around because of slow browsing networks and response
     print("\nYou are now fully logged in..")
