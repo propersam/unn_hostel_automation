@@ -29,7 +29,7 @@ def print_student_details(browser):
     return
 
 
-def login_to_portal(browser, reg_num, unn_hostel_portal, rrr_num):
+def login_to_portal(browser, reg_num, rrr_num, unn_hostel_portal):
     browser.get(unn_hostel_portal)
 
     # time.sleep(12) # Let the user actually see something # this is worst case scenario
@@ -231,15 +231,17 @@ def main():
     args = vars(opt.parse_args())
 
     unn_portal_link = 'https://unnportal.unn.edu.ng/HostelLanding.aspx'
+
+
+    #browser_choice = 'firefox'
+    browser_choice = args['browser'].lower()
+
     
     # reg_number = '2015/197595'
     reg_number = args['regnumber']
 
     # rrr_number ='6387908976562'
     rrr_num = args['rrrnumber']
-
-    #browser_choice = 'firefox'
-    browser_choice = args['browser'].lower()
 
     #passwd = ''
     browser_driver = ''
