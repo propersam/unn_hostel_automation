@@ -205,7 +205,7 @@ def continue_retry(browser_driver, max_hostel_available, tries):
             terminate_program(browser_driver)
 
     except:
-        print('error', sys.exc_info()[1])
+        print(':', sys.exc_info()[1])
         terminate_program(browser_driver)
 
 
