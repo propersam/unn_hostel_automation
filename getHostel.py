@@ -235,6 +235,9 @@ def main():
     # reg_number = '2015/197595'
     reg_number = args['regnumber']
 
+    # rrr_number ='6387908976562'
+    rrr_num = args['rrrnumber']
+
     #browser_choice = 'firefox'
     browser_choice = args['browser'].lower()
 
@@ -266,7 +269,7 @@ def main():
         #browser_driver.implicitly_wait(8) # every action on browser give it this min time to execute
         print('Browser Loaded...')
 
-        login_to_portal(browser_driver, reg_number, unn_portal_link)
+        login_to_portal(browser_driver, reg_number, rrr_num, unn_portal_link)
         print('Logged in successfully...')
 
         print("\nTime to start applying for hostel...\n")
