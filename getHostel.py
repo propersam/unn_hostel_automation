@@ -221,15 +221,25 @@ def main():
                       help='Your preferred Browser to run automation in [firefox/chrome]')
     opt.add_argument('-r', '--regnumber', required=True,
                       help="A valid unn reg number of someone that has paid their school fee and is yet to get hostel")
+    opt.add_argument('-n', '--rrrnumber', required=True,
+                      help='A valid RRR number')
+    opt.add_argument('-t', '--tries', required=False, help='Number of trials to attempt', default=0)
 
     args = vars(opt.parse_args())
 
-    unn_portal_link = 'https://unnportal.unn.edu.ng/modules/hostelmanager/ApplyForHostel.aspx'
+    unn_portal_link = 'https://unnportal.unn.edu.ng/HostelLanding.aspx'
+
+
+    #browser_choice = 'firefox'
+    browser_choice = args['browser'].lower()
+    
     # reg_number = '2015/197595'
     reg_number = args['regnumber']
 
     #browser_choice = 'firefox'
     browser_choice = args['browser'].lower()
+
+    tries = int(args['tries']) # default is 0: num of tries not set
 
     #passwd = ''
     browser_driver = ''
@@ -237,13 +247,16 @@ def main():
 
     print('Hi Welcome, I am gabriel\n your Hostel Angel \n Loading up {0} browser now.\nPlease wait...'.format(browser_choice))
 
+    
+
     ## making number of tries a varying value
-    while True:
-        try:
-            tries = int(input("\nHow many times will you like me to retry: "))
-            break
-        except:
-            print('Invalid reponse try again..')
+    if tries == 0: # if tries is not set
+        while True:
+            try:
+                tries = int(input("\nHow many times will you like me to retry: "))
+                break
+            except:
+                print('Invalid reponse try again..')
 
     try:
         # start browser engine
@@ -282,12 +295,6 @@ def main():
     print('='*5, '-| Starting hostel Application Process now |-', '='*5)
     # start applying for any random hostel
     start_hostel_application(browser_driver, max_hostel_available, tries)
-
-    # print('When you are done and you are yet to get hostel click on Get hostel to continue the hostel application...')
-
-    # print('Make sure your details and other options are set correctly before clicking.')
-    continue_retry(browser_driver, max_hostel_available, tries)
-
 
 if __name__ =='__main__':
     main()
