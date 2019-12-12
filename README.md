@@ -23,7 +23,7 @@ This is a simple automation tool that allows user students to apply, for hostel 
 ```python3 getHostel.py -b [name of browser- 'firefox' or 'chrome'] -r ['school_regnum' of someone yet to get hostel] -n ['valid remitta rrr that has paid for the service']```
 
 e.g 
-- ```python3 getHostel.py -b chrome -r 2013/223323 -n 3443238998 ```
+- ```python3 getHostel.py -b chrome -r 2013/223xxx -n 344xxx89xx ```
 
 ![Example](examples/example_terminal_1.png "Console View 1")
 - Console View 1
