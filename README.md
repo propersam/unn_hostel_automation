@@ -20,9 +20,17 @@ This is a simple automation tool that allows user students to apply, for hostel 
 ``` python3 -m pip install -r requirements.txt``` 
 ![Install Modules](examples/install-modules.png "Install required modules")
 - Run the program
-```python3 getHostel.py --browser [name of browser- 'firefox' or 'chrome'] --regnumber ['school_regnum' of someone yet to get hostel] ```
-![Example](examples/example_.png "Example")
-- Console View
-![Console View](examples/console.png "Console")
-- Browser View
-![Chrome](examples/screen.png "Chrome")
+```python3 getHostel.py -b [name of browser- 'firefox' or 'chrome'] -r ['school_regnum' of someone yet to get hostel] -n ['valid remitta rrr that has paid for the service']```
+
+e.g 
+- ```python3 getHostel.py -b chrome -r 2013/223xxx -n 344xxx89xx ```
+
+![Example](examples/example_terminal_1.png "Console View 1")
+- Console View 1
+![Console View](examples/example_terminal_2.png "Console View 2")
+- Console View 2
+![Console View 2](examples/example_terminal_3.png "Console View 3")
+- Browser View 1
+![Chrome View 1](examples/example_browser_1.png "Chrome View 1")
+- Browser View 2
+![Chrome View 2](examples/example_browser_2.png "Chrome View 2")
