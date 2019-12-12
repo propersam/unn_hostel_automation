@@ -135,7 +135,8 @@ def start_hostel_application(browser, num_of_hostel, trials):
             WebDriverWait(browser,15).until(EC.alert_is_present(), 'Timed out waiting for alerts to appear') #wait for alert
             alert = browser.switch_to.alert
             if alert.text:
-                print(alert.text)
+                print("| AlertBox Msg: " + alert.text + " |")
+                print()
                 time.sleep(3)
                 alert.accept()
             else:
@@ -301,7 +302,7 @@ def main():
     print('='*5, '-| Starting hostel Application Process now |-', '='*5)
     # start applying for any random hostel
     start_hostel_application(browser_driver, max_hostel_available, tries)
-    
+
 
 if __name__ =='__main__':
     main()
