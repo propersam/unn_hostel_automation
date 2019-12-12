@@ -3,6 +3,8 @@ from __future__ import print_function
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options as chromeOptn
+from selenium.webdriver.firefox.options import Options as firefoxOptn
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -231,6 +233,8 @@ def main():
     opt.add_argument('-n', '--rrrnumber', required=True,
                       help='A valid RRR number')
     opt.add_argument('-t', '--tries', required=False, help='Number of trials to attempt', default=0)
+    opt.add_argument('-nb', '--headless', required=False, default=False, 
+                      help='Set if script should run in headless mode or not (without browser)')
 
     args = vars(opt.parse_args())
 
@@ -246,12 +250,23 @@ def main():
     #browser_choice = 'firefox'
     browser_choice = args['browser'].lower()
 
+    # Number of trials to attempt
     tries = int(args['tries']) # default is 0: num of tries not set
     
     # rrr_number ='63879xxx976xxx'
     rrr_num = args['rrrnumber']
 
+    # set if script to run with or without browser [true/false]
+    headless = bool(args['headless'])
+
     #passwd = ''
+    chromeOpt = chromeOptn();
+    firefoxOpt = firefoxOptn();
+
+    if headless == True:
+        chromeOpt.add_argument("--headless");
+        firefoxOpt.add_argument("--headless");
+    
     browser_driver = ''
     browser_path = ''
 
@@ -269,9 +284,9 @@ def main():
     try:
         # start browser engine
         if browser_choice == 'firefox':
-            browser_driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
+            browser_driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), firefox_options=firefoxOpt)
         elif browser_choice == 'chrome':
-            browser_driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
+            browser_driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(), chrome_options=chromeOpt)
         else:
             print("I can't help you now...\n To Continue, you need to have either 'Firefox' or 'Chrome' installed")
             terminate_program(browser_driver)
