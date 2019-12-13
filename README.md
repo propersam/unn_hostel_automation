@@ -17,9 +17,10 @@ This is a simple automation tool that allows user students to apply, for hostel 
 ```python3 -m pip install --upgrade pip```
 ![Updating PIP](examples/install-pip.png "Updating PIP")
 - Install the required modules, by running
-``` python3 -m pip install -r requirements.txt``` 
+``` python3 -m pip install -r requirements.txt --user``` 
 ![Install Modules](examples/install-modules.png "Install required modules")
-- Run the program
+
+## Running the program
 ```python3 getHostel.py -b [name of browser- 'firefox' or 'chrome'] -r ['school_regnum' of someone yet to get hostel] -n ['valid remitta rrr that has paid for the service']```
 
 e.g 
@@ -34,3 +35,15 @@ e.g
 ![Chrome View 1](examples/example_browser_1.png "Chrome View 1")
 - Browser View 2
 ![Chrome View 2](examples/example_browser_2.png "Chrome View 2")
+
+- If you want to run the Program in headless mode (without browser)
+
+``` python3 getHostel.py -b [name of browser- 'firefox' or 'chrome'] -r ['school_regnum' of someone yet to get hostel] -n ['valid remitta rrr that has paid for the service'] -nb [(as in no-browser) run in headless mode - 'true' or 'false'] ```
+
+e.g.
+``` python3 getHostel.py -b chrome -r 2013/223xxx -n 344xxx89xx -nb true ```
+
+## To See help Page
+```
+python3 getHostel.py -h/--help
+```
