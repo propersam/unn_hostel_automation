@@ -156,6 +156,10 @@ def start_hostel_application(browser, num_of_hostel, trials):
         except: # This contains success of hostel application next page
             if application_page != browser.current_url:
                 print('The current Page needs your attention.. \n go checkout it out')
+
+                # screenshot and save unknown page for users before exitting (likely a success page)
+                # screenshot image will be saved in d same directory as getHostel.py script
+                browser.save_screenshot("Possbible_proof_of_success.png") 
                 break
 
             else:
@@ -177,7 +181,7 @@ def continue_retry(browser_driver, max_hostel_available, tries):
     print('The program has stopped temporarily..')
 
     try:
-        print("To Continue Trying Press '[Y]' or Any Other Key To Quit")
+        print("To Continue Trying Press and Enter '[Y]' or Any Other Key To Quit")
         input_func = input # trying for python3
         reply = str(input_func())
         if reply.lower() == 'y':
